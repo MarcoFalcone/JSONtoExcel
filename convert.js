@@ -1,9 +1,9 @@
 const XLSX = require('xlsx');
 const json = require('./en/en-us.json'); // import json file
 
-delete json.creationDate;
+delete json.creationDate; // if creation date present
 
-const flattenObject = (obj, prefix = '') => Object.keys(obj).reduce((acc, k) => {
+const flattenObject = (obj, prefix = '') => Object.keys(obj).reduce((acc, k) => { // if json object is nested
   const pre = prefix.length ? `${prefix}.` : '';
   if (
     typeof obj[k] === 'object'
@@ -15,7 +15,7 @@ const flattenObject = (obj, prefix = '') => Object.keys(obj).reduce((acc, k) => 
 
 const flattenedJson = flattenObject(json);
 
-const wscols = [
+const wscols = [ // columns width
   { wch: 40 },
   { wch: 40 },
 ];
@@ -23,7 +23,7 @@ const wscols = [
 function ec(r, c) {
   return XLSX.utils.encode_cell({ r, c });
 }
-function deleteRow(ws, rowIndex) {
+function deleteRow(ws, rowIndex) { // delete rows if needed
   const variable = XLSX.utils.decode_range(ws['!ref']);
   for (let R = rowIndex; R < variable.e.r; ++R) {
     for (let C = variable.s.c; C <= variable.e.c; ++C) {
